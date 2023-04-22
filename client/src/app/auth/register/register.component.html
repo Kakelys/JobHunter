@@ -1,0 +1,68 @@
+<div class="container d-flex align-items-center justify-content-center">
+  <form #regForm="ngForm" (ngSubmit)="onSubmit(regForm)">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        type="text"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': regForm.controls.name?.invalid && regForm.controls.name?.touched
+        }"
+        id="name"
+        placeholder="Your name"
+        name="name"
+        ngModel
+        required
+        minlength="" />
+    </div>
+    <div class="form-group">
+      <label for="username">Login</label>
+      <input
+        type="text"
+        class="form-control"
+        id="username"
+        placeholder="Name for login"
+        [ngClass]="{
+          'is-invalid': regForm.controls.username?.invalid && regForm.controls.username?.touched
+        }"
+        name="username"
+        ngModel
+        required
+        minlength="" />
+    </div>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        [ngClass]="{
+          'is-invalid': regForm.controls.password?.invalid && regForm.controls.password?.touched
+        }"
+        id="password"
+        placeholder="Password"
+        name="password"
+        ngModel
+        required
+        minlength="4"
+        autocomplete="on"/>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input
+        type="text"
+        class="form-control"
+        name="email"
+        id="email"
+        placeholder="example@examle.com"
+        ngModel
+        email/>
+    </div>
+
+    <div class="mt-3">
+      <button class="btn btn-success me-2">
+        Register
+      </button>
+      <a routerLink="../login">Already have account?</a>
+    </div>
+  </form>
+</div>

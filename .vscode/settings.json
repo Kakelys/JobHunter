@@ -1,0 +1,15 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "node_course_work",
+            "database": "work_find_coursework",
+            "username": "postgres",
+            "password": ".Qwerty1%"
+        }
+    ],
+    "angular.enable-strict-mode-prompt": false
+}
