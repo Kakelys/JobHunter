@@ -1,4 +1,8 @@
+import { Employer } from "./employer.model";
+
 export class User {
   id: number;
-  is_admin: boolean;
+  name: string;
+  isAdmin: boolean;
+  employer: Employer;
 }

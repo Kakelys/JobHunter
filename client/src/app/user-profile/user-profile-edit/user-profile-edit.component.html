@@ -1,0 +1,81 @@
+<div>
+  <div *ngIf="isLoading; else profileEditFormTemplate">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+
+  <ng-template #profileEditFormTemplate>
+    <form (ngSubmit)="onSubmit(profileEditForm)" #profileEditForm="ngForm" class="w-50">
+      <div>
+        <div class="form-group w-75">
+          <label for="name" class="ps-1">Name<span class="text-danger">*</span></label>
+          <input
+            type="text"
+            name="name" id="name"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                profileEditForm.controls?.name?.invalid &&
+                profileEditForm.controls?.name?.touched
+            }"
+            [ngModel]="profile.name"
+            required
+            minlength="3"
+            maxlength="255"
+            />
+        </div>
+        <div class="form-group pt-2">
+          <label for="website" class="ps-1">Website:</label>
+          <input
+            type="text"
+            name="website" id="website"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                profileEditForm.controls?.website?.invalid &&
+                profileEditForm.controls?.website?.touched
+            }"
+            [ngModel]="profile.website"
+            maxlength="255"
+            />
+        </div>
+        <div class="form-group pt-2">
+          <label for="email" class="ps-1">Email:</label>
+          <input
+            type="text"
+            name="email" id="email"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                profileEditForm.controls?.email?.invalid &&
+                profileEditForm.controls?.email?.touched
+            }"
+            [ngModel]="profile.email"
+            maxlength="255"
+            email
+            />
+        </div>
+        <div class="form-group pt-2">
+          <label for="about" class="ps-1">About:</label>
+          <textarea
+            type="textarea"
+            name="about" id="about"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid':
+                profileEditForm.controls?.about?.invalid &&
+                profileEditForm.controls?.about?.touched
+            }"
+            [ngModel]="profile.about"
+            maxlength="10000"
+            autoExpand
+            >
+          </textarea>
+        </div>
+      </div>
+      <div class="pt-2">
+        <button class="btn btn-success" [disabled]="profileEditForm.invalid">Save</button>
+      </div>
+    </form>
+  </ng-template>
+
+</div>

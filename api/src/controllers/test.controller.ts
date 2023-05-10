@@ -1,9 +1,10 @@
-import { Controller, Get, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { ApiTags } from "@nestjs/swagger";
 import { genSalt, hash,compare } from 'bcrypt';
 import { JwtGuard } from "src/guards/jwt.guard";
-import { jwtConstants } from "src/shared/jwt-constants";
+import { jwtConstants } from "src/shared/auth/jwt-constants";
+import { Test } from "src/shared/test.model";
 
 @ApiTags('tests')
 @Controller('test')
@@ -21,11 +22,9 @@ export class TestController {
         console.log(passHash);
     }
 
-    @Get('test-jwt')
-    async testJwt() {
-        
-        let expiresIn = jwtConstants.accessExpiresIn;
-        console.log(this.jwtService.sign({data: 'd'}, {expiresIn: expiresIn}));
+    @Post('validation')
+    async testValidation(@Body() test: Test) {   
+        return {message: 'ok'};
     }
 
     @UseGuards(JwtGuard)

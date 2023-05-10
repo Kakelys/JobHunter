@@ -1,17 +1,28 @@
 import { JwtService } from '@nestjs/jwt';
-import { BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
-import { account } from "@prisma/client";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { TokenDataService } from "src/data/data-services/token-data.service";
-import { JwtDto } from "src/shared/jwt.model";
-import { jwtConstants } from 'src/shared/jwt-constants';
+import { JwtDto } from 'src/shared/auth/jwt.model';
+import { jwtConstants } from 'src/shared/auth/jwt-constants';
+import { JwtPayload } from 'src/shared/auth/jwt-payload.model';
+import { Employer } from 'src/shared/employer-response.model';
 
 @Injectable()
 export class TokenService {
 
     constructor(private tokenData: TokenDataService, private jwtService: JwtService) {}
 
-    generatePair(user: account) : JwtDto {
-        const payload = { sub: user.id, is_admin: user.is_admin };
+    generatePair(user: any) : JwtDto {
+        const payload : JwtPayload = { 
+            sub: user.id,
+            name: user.accountInfo.name,
+            isAdmin: user.is_admin, 
+            employer: user.employer ? {
+                accountId: user.employer.account_id,
+                companyId: user.employer.company_id,
+                isHr: user.employer.is_hr
+            } : null,
+            expiresIn: null
+        };
 
         const accessToken = this.jwtService.sign(payload, {expiresIn: jwtConstants.accessExpiresIn});
         const refreshToken = this.jwtService.sign(payload, {expiresIn: jwtConstants.refreshExpiresIn});
@@ -19,7 +30,7 @@ export class TokenService {
         return {accessToken, refreshToken};
     }
 
-    async refresh(refreshToken: string) : Promise<JwtDto> {
+    async refresh(user: any, refreshToken: string) : Promise<JwtDto> {
         let tokenEntity = await this.tokenData.getByToken(refreshToken);
         if(!tokenEntity)
             throw new BadRequestException("Invalid refresh token");
@@ -28,19 +39,18 @@ export class TokenService {
             throw new BadRequestException("Refresh token expired");
 
         let payload = await this.getTokenPayload(refreshToken);
+
+        const newPair = this.generatePair(user); 
         
-        const accessToken = this.jwtService.sign({sub: payload.sub, is_admin: payload.is_admin}, {expiresIn: jwtConstants.accessExpiresIn});
-        const newRefreshToken = this.jwtService.sign({sub: payload.sub, is_admin: payload.is_admin}, {expiresIn: jwtConstants.refreshExpiresIn});
-        
-        await this.tokenData.update(payload.sub, tokenEntity.id, newRefreshToken);
+        await this.tokenData.update(payload.sub, tokenEntity.id, newPair.refreshToken);
         
         return {
-            accessToken: accessToken,
-            refreshToken: newRefreshToken
+            accessToken: newPair.accessToken,
+            refreshToken: newPair.refreshToken
         };
     }
 
     getTokenPayload(token: string) {
-        return this.jwtService.verify(token) as {sub: number, is_admin: boolean, expiresIn: string | number};
+        return this.jwtService.verify(token) as JwtPayload;
     }
 }

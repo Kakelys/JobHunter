@@ -17,7 +17,7 @@ export class AuthService {
 
   register(registerDto: Register) {
     return this.http.post<AuthResponse>(`${this.baseUrl}/register`, registerDto)
-      .pipe(tap(this.handleAuth));
+      .pipe(tap(data => this.handleAuth(data)));
   }
 
   login(loginDto: Login) {
@@ -42,12 +42,11 @@ export class AuthService {
   }
 
   private handleAuth(res: AuthResponse) {
-    console.log(res);
     if(!res)
       return;
     localStorage.setItem('access-token', res.jwt.accessToken);
     localStorage.setItem('refresh-token', res.jwt.refreshToken);
 
-    this.user.next({id: res.id, is_admin: res.is_admin});
+    this.user.next({id: res.id, isAdmin: res.isAdmin, employer: res.employer, name: res.name});
   }
 }

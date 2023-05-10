@@ -27,10 +27,9 @@ export class AuthInterceptor implements HttpInterceptor {
 
     return next.handle(modifiedReq).pipe(
       catchError((err) => {
-        localStorage.removeItem('access-token');
-
         // If it's Unauthorized try to refresh tokens and resend request
         if(err instanceof HttpErrorResponse && err.status === 401) {
+          localStorage.removeItem('access-token');
           if(!localStorage.getItem('refresh-token')) {
             return throwError(err);
           }

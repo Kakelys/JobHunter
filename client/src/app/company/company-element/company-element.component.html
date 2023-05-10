@@ -1,0 +1,72 @@
+<div class="pt-3">
+  <app-loading-spinner *ngIf="isLoading; else companyTemplate"></app-loading-spinner>
+  <ng-template #companyTemplate>
+    <ng-template #companyNotFound>
+      <h4>No company found</h4>
+    </ng-template>
+
+    <div *ngIf="company; else companyNotFound">
+      <div class="container">
+        <div class="h4  fw-bold">
+          {{company.name}}
+        </div>
+
+        <div *ngIf="company.phone">
+            <i-bs name="telephone" class="pe-2"></i-bs>
+            <span class="align-middle">{{company.phone}}</span>
+        </div>
+
+        <div *ngIf="company.website">
+          <div>
+            <i-bs name="globe" class="pe-2"></i-bs>
+            <a href="{{company.website}}">{{company.website}}</a>
+          </div>
+        </div>
+      </div>
+      <hr>
+
+      <div class="container" *ngIf="company.about">
+        <pre>{{company.about}}</pre>
+      </div>
+      <div>
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+          <li [ngbNavItem]="0">
+            <button ngbNavLink style="border: 0px !important; cursor: default !important;">
+            </button>
+          </li>
+          <li [ngbNavItem]="1" class="ps-2">
+            <button ngbNavLink>
+              <i-bs name="people" class="pe-2"></i-bs>
+              Members ({{company.employers}})
+            </button>
+            <ng-template ngbNavContent>
+              <div class="container">
+                Hehe
+              </div>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2">
+            <button ngbNavLink>
+              <i-bs name="list" class="pe-2"></i-bs>
+              Vacancies ({{company.vacancies}})
+            </button>
+            <ng-template ngbNavContent>
+              <div class="container">
+                <app-vacancy-list [company]="company" [user]="user"></app-vacancy-list>
+              </div>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="9" *ngIf="company.ownerId == user?.id">
+            <button ngbNavLink><i-bs name="gear"></i-bs></button>
+            <ng-template ngbNavContent>
+              <div class="container">
+                <app-company-edit [company]="company" (saved)="loadCompany()"></app-company-edit>
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </div>
+    </div>
+  </ng-template>
+</div>

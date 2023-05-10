@@ -1,0 +1,75 @@
+<div class="container">
+
+  <div class="d-flex justify-content-center" *ngIf="isLoading; else profileBlock">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+
+  <ng-template #profileBlock>
+    <div class="h3">
+      {{profile.name}}
+    </div>
+    <div *ngIf="profile?.website" class="pb-1">
+      <span>
+        <i-bs name="globe" class="pe-2"></i-bs>
+        <a href="{{profile.website}}">{{profile.website}}</a>
+      </span>
+    </div>
+
+    <div *ngIf="profile.company">
+      <span>
+        <i-bs name="briefcase-fill"></i-bs>
+        <a routerLink="/company/{{profile.company.id}}" class="app-link" style="cursor: pointer;">
+          {{profile.company.name}}
+        </a>
+      </span>
+    </div>
+
+    <div *ngIf="user?.employer?.isHr && user?.employer?.companyId != profile?.company?.id" class="pt-2">
+      <button class="btn btn-outline-secondary" (click)="sendInvite()">Invite to company</button>
+    </div>
+
+    <div *ngIf="user" class="pt-2">
+      <button class="btn btn-outline-secondary" routerLink="/chat/{{profile.id}}">Send message</button>
+    </div>
+
+    <div *ngIf="profile.id === user?.id">
+      <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+        <li [ngbNavItem]="0">
+          <button ngbNavLink style="border: 0px">
+            <i-bs name="app"></i-bs>
+          </button>
+        </li>
+        <li [ngbNavItem]="1">
+          <button ngbNavLink>
+            <i-bs name="envelope-plus" class="pe-2"></i-bs>
+            Invites
+          </button>
+          <ng-template ngbNavContent>
+            <div class="container">
+              <app-user-invite-list [profile]="profile" (updated)="updateProfile()"></app-user-invite-list>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2" class="ps-2">
+          <button ngbNavLink>
+            <i-bs name="gear"></i-bs>
+          </button>
+          <ng-template ngbNavContent>
+            <div class="container">
+              <app-user-profile-edit [profile]="profile" (updated)="updateProfile();"></app-user-profile-edit>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+    </div>
+
+    <div class="container pt-2" *ngIf="profile.about">
+      <pre>{{profile.about}}</pre>
+    </div>
+    <ng-template #profileNotFound>
+      <h5>Profile not found</h5>
+    </ng-template>
+  </ng-template>
+
+</div>

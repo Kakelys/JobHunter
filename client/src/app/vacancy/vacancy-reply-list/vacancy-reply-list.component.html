@@ -1,0 +1,38 @@
+<div>
+  <ng-template #loading>
+    <app-loading-spinner></app-loading-spinner>
+  </ng-template>
+  <div *ngIf="!isLoading; else loading">
+    <div *ngFor="let reply of replies" class="shadow p-3 mb-2 bg-body rounded w-25">
+      <div class="d-flex justify-content-end text-muted">
+        {{reply.date | date:'h:mm a, d, MMM'}}
+      </div>
+      <div>
+        <span class="align-middle">
+          <i-bs name="chat-dots" width="1.3em" height="1.3em"></i-bs>
+          <a class="app-link ps-2" style="font-size: 1.1em;" routerLink="/user/{{reply.account.id}}">{{reply.account.name}}</a>
+        </span>
+      </div>
+      <div class="pt-2">
+        <form #editReplyForm="ngForm" (ngSubmit)="onSave(editReplyForm, reply.id)">
+          <select name="status" id="status" class="form-select" [ngModel]="reply.status">
+            <option value="pending">Pending</option>
+            <option value="accepted">Accept</option>
+            <option value="declined">Decline</option>
+          </select>
+
+          <div class="pt-2">
+            <button class="btn btn-success" type="submit">
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div *ngIf="canLoadMore">
+      <button class="btn-outline-info" (click)="loadPage()">Load more</button>
+    </div>
+  </div>
+
+</div>

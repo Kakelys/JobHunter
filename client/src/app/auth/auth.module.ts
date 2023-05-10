@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AuthService } from './auth.service';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './auth.guard';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { LoginComponent } from './login/login.component';
       { path: 'login', component: LoginComponent }
     ]),
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuard],
   exports: [
     RegisterComponent,
     LoginComponent

@@ -1,7 +1,10 @@
+import { Employer } from "./employer.model";
 import { Jwt } from "./jwt.model";
 
 export class AuthResponse {
   id: number;
-  is_admin: boolean;
+  name: string;
+  isAdmin: boolean;
+  employer: Employer;
   jwt:Jwt;
 }

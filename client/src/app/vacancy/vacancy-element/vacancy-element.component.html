@@ -1,0 +1,107 @@
+<div class="container">
+  <div class="d-flex justify-content-center" *ngIf="isLoading; else vacancyEl">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+  <ng-template #vacancyEl>
+    <div class="shadow p-3 mb-5 bg-body rounded">
+      <div class="position-relative">
+        <div class="position-absolute top-0 end-0">
+          <button class="btn favorite" (click)="addToFavorite()" style="border:0px;">
+            <i-bs name="bookmark-plus-fill" width="1.5em" height="auto" *ngIf="!addedToFavorite; else favorited"></i-bs>
+            <ng-template #favorited>
+              <i-bs name="bookmark-fill" width="1.5em" height="auto" class="show"></i-bs>
+            </ng-template>
+          </button>
+        </div>
+      </div>
+      <div>
+        <h5>{{vacancy.title}}</h5>
+      </div>
+      <div>
+        <span>Salary: {{vacancy.salary ? vacancy.salary : 'Not specified'}}</span>
+      </div>
+      <div>
+        <span>Posted: {{vacancy.postDate | date:'mediumDate'}}</span>
+      </div>
+      <div>
+        <span>
+          <i-bs name="briefcase-fill"></i-bs>
+          <a routerLink="/company/{{vacancy.company.id}}" class="app-link" style="cursor: pointer;">
+            {{vacancy.company.name}}
+          </a>
+        </span>
+      </div>
+      <div>
+        <span><i-bs name="chat-dots"></i-bs>
+        <a routerLink="/user/{{vacancy.author.id}}" class="app-link">
+          {{vacancy.author.name}}
+        </a>
+      </span>
+      </div>
+      <div class="pt-2" *ngIf="vacancy.isActive; else notActive">
+        <div *ngIf="user">
+          <div *ngIf="vacancy.company.id == user?.employer?.companyId; else reply" class="text-danger">
+            You already in this company
+          </div>
+          <ng-template #reply>
+            <button
+              class="btn btn-success pt-2 pb-2"
+              style="padding-left: 40px; padding-right: 50px;"
+              *ngIf="!isReplyLoading; else replyLoading"
+              (click)="sendReply()">
+              Reply
+            </button>
+            <ng-template #replyLoading>
+              <app-loading-spinner></app-loading-spinner>
+            </ng-template>
+          </ng-template>
+        </div>
+      </div>
+      <ng-template #notActive>
+        <div>
+          <span class="text-danger">This vacancy is closed</span>
+        </div>
+      </ng-template>
+
+      <div *ngIf="user?.employer?.companyId == vacancy.company.id && user?.employer?.isHr">
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+          <li [ngbNavItem]="0">
+            <button ngbNavLink style="border: 0px">
+              <i-bs name="app"></i-bs>
+            </button>
+          </li>
+          <li [ngbNavItem]="1">
+            <button ngbNavLink>
+              <i-bs name="people-fill" class="pe-2"></i-bs>
+              Replies ({{vacancy.replies}})
+            </button>
+            <ng-template ngbNavContent>
+              <div class="container">
+                <app-vacancy-reply-list [vacancy]="vacancy"></app-vacancy-reply-list>
+              </div>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="2" class="ps-2">
+            <button ngbNavLink>
+              <i-bs name="gear"></i-bs>
+            </button>
+            <ng-template ngbNavContent>
+              <div class="container">
+                <app-vacancy-edit [vacancy]="vacancy"></app-vacancy-edit>
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </div>
+
+    </div>
+
+    <div class="shadow p-3 mb-5 bg-body rounded">
+      <pre class="pt-2">{{vacancy.description}}</pre>
+    </div>
+  </ng-template>
+</div>
+
+
+

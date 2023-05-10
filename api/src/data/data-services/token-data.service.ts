@@ -1,7 +1,7 @@
 import { account, token } from '@prisma/client';
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "../prisma.service";
-import { jwtConstants } from 'src/shared/jwt-constants';
+import { jwtConstants } from 'src/shared/auth/jwt-constants';
 
 @Injectable()
 export class TokenDataService {

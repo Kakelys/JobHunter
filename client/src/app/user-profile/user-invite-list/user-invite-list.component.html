@@ -1,0 +1,39 @@
+<div>
+
+  <div *ngIf="invites.length == 0 && !isLoading" class="h5">
+    Seems, you have no invites
+  </div>
+  <div class="w-25">
+    <div *ngFor="let invite of invites" class="shadow p-3 mb-2 bg-body rounded">
+      <div>
+        {{invite.date | date:'h:mm, d, MMM, y'}}
+      </div>
+      <div>
+          <span>
+            <i-bs name="briefcase-fill"></i-bs>
+            <a routerLink="/company/{{invite.company.id}}" class="app-link" style="cursor: pointer;">
+              {{invite.company.name}}
+            </a>
+          </span>
+      </div>
+      <div>
+        <span>
+          <i-bs name="telephone"></i-bs>
+          <a routerLink="/user/{{invite.inviter.id}}" class="app-link" style="cursor: pointer;">
+            {{invite.inviter.name}}
+          </a>
+        </span>
+      </div>
+      <div class="pt-2 d-flex">
+        <button class="btn btn-outline-success me-2" (click)="accept(invite.id)">Accept</button>
+        <button class="btn btn-danger" (click)="reject(invite.id)">Reject</button>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-info" (click)="loadPage()" *ngIf="canLoadMore">Load more</button>
+    </div>
+  </div>
+
+
+
+</div>

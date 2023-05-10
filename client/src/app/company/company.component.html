@@ -1,0 +1,21 @@
+<div class="container">
+  <div *ngIf="!user">
+    Nothing here?
+    <a routerLink="/login" class="link text-decoration-none">Login first</a>
+  </div>
+
+  <div *ngIf="!user?.employer && user">
+    <div>Still not in the company?</div>
+    <div>
+      Wait for the invintation or
+      <a class="link text-decoration-none" style="cursor: pointer;" routerLinkActive="fw-bold" routerLink="new">create your own!</a>
+    </div>
+  </div>
+
+  <div *ngIf="user && user?.employer" routerLinkActive="hide">
+    <a [routerLink]="[user?.employer?.companyId]" class="btn btn-outline-success">My company</a>
+  </div>
+
+  <router-outlet></router-outlet>
+
+</div>

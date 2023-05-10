@@ -20,22 +20,23 @@ export class HttpResponseException implements HttpInterceptor {
         if (err instanceof HttpErrorResponse) {
           switch (err.status) {
             case 400:
-              if (err.error.errors) {
-                let errors = [];
-
+              if (Array.isArray(err.error.message)) {
+                /*
                 Object.keys(err.error.errors).forEach(key => {
                   errors.push(err.error.errors[key][0]);
                 });
-
-                return throwError(errors.join('\n'));
+                */
+                return throwError(err.error.message.join('\n'));
               }
 
-              if (err.error) {
-                return throwError(err.error);
+              if (err.error.message) {
+                return throwError(err.error.message);
               }
-            case 401: return throwError(err);
+
+              break;
+            case 401: return throwError("Unauthorized");
             case 403: return throwError("Access denied");
-            case 500: return throwError("Internal server error");
+            case 500: return throwError("Something went wrong(");
           }
         }
 

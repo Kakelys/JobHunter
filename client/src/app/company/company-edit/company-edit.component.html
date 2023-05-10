@@ -1,0 +1,60 @@
+<div class="w-50">
+
+  <app-loading-spinner *ngIf="isLoading; else companyEditFormTemplate"></app-loading-spinner>
+
+  <ng-template #companyEditFormTemplate>
+    <form #companyEditForm="ngForm" (ngSubmit)="onSubmit(companyEditForm)">
+      <div class="form-group mt-1">
+        <label for="name" class="ps-1">Company name:</label>
+        <input type="text"
+          class="form-control"
+          id="name"
+          name="name"
+          [ngModel]="company.name"
+          [ngClass]="{
+            'is-invalid':
+              companyEditForm.controls?.name?.invalid &&
+              companyEditForm.controls?.name?.touched
+          }"
+          required
+          minlength="4"
+          placeholder="Type company name here"
+        >
+      </div>
+      <div class="form-group mt-1">
+        <label for="website" class="ps-1">Website:</label>
+        <input type="text"
+          class="form-control"
+          id="website"
+          name="website"
+          [ngModel]="company.website"
+          placeholder="Type your website here"
+        >
+      </div>
+      <div class="form-group mt-1">
+        <label for="phone" class="ps-1">Phone:</label>
+        <input type="text"
+          class="form-control"
+          id="phone"
+          name="phone"
+          [ngModel]="company.phone"
+          placeholder="Type company phone here"
+        >
+      </div>
+      <div class="form-group mt-1">
+        <label for="about" class="ps-1">About:</label>
+        <textarea type="textarea"
+          class="form-control"
+          id="about"
+          name="about"
+          [ngModel]="company.about"
+          placeholder="Type some info about your company here"
+          autoExpand
+        ></textarea>
+      </div>
+      <div class="pt-2">
+        <button type="submit" class="btn btn-success" [disabled]="companyEditForm.invalid">Save</button>
+      </div>
+    </form>
+  </ng-template>
+</div>

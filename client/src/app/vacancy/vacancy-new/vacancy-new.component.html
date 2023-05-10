@@ -1,0 +1,63 @@
+<div class="container">
+  <div class=" w-50">
+
+    <app-loading-spinner *ngIf="isLoading; else vacancyNewFormTemplate"></app-loading-spinner>
+
+    <ng-template #vacancyNewFormTemplate>
+      <form (ngSubmit)="onSubmit(vacancyNewForm)" #vacancyNewForm="ngForm">
+        <div class="form-group w-75">
+          <label for="title" class="ps-1">Title<span class="text-danger">*</span></label>
+          <input type="text"
+            class="form-control"
+            id="title" name="title"
+            ngModel
+            required
+            [ngClass]="{
+              'is-invalid':
+                vacancyNewForm.controls?.title?.invalid &&
+                vacancyNewForm.controls?.title?.touched
+            }"
+            minlength="5"
+            maxlength="255"
+            placeholder="Manager | Software Developer, etc."
+            >
+        </div>
+        <div class="form-group pt-2 w-25">
+          <label for="salary" class="ps-1">
+            Salary
+          </label>
+          <input type="text"
+            class="form-control"
+            id="salary" name="salary"
+            minlength="3"
+            maxlength="20"
+            ngModel
+            placeholder="300-400$"
+            >
+        </div>
+        <div class="form-group pt-2">
+          <label for="description" class="ps-1">
+            Description<span class="text-danger">*</span>
+          </label>
+          <textarea type="textarea"
+            class="form-control"
+            id="description" name="description"
+            [ngClass]="{
+              'is-invalid':
+                vacancyNewForm.controls?.description?.invalid &&
+                vacancyNewForm.controls?.description?.touched
+            }"
+            ngModel
+            required
+            minlength="1"
+            placeholder="Type vacancy description here"
+          >
+          </textarea>
+        </div>
+        <div class="pt-2">
+          <button class="btn btn-success" [disabled]="vacancyNewForm.invalid">Create</button>
+        </div>
+      </form>
+    </ng-template>
+  </div>
+</div>

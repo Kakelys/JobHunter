@@ -2,9 +2,9 @@ import { TokenService } from './../services/token.service';
 import { Body, Controller, Post, Req } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { AuthService } from "src/services/auth.service";
-import { JwtDto } from 'src/shared/jwt.model';
-import { LoginDto } from "src/shared/login-dto.model";
-import { RegisterDto } from "src/shared/register-dto.model";
+import { JwtDto } from 'src/shared/auth/jwt.model';
+import { LoginDto } from 'src/shared/auth/login-dto.model';
+import { RegisterDto } from 'src/shared/auth/register-dto.model';
 
 @ApiTags('auth')
 @Controller('v1/auth')

@@ -13,4 +13,29 @@ export class EmployerDataService {
             }
         });
     }
+
+    async getCountByCompany(companyId: number) {
+        return await this.prisma.employer.count({
+            where: {
+                company_id: companyId
+            }
+        });
+    }
+
+    async create(companyId: number, accountId: number) {
+        return await this.prisma.employer.create({
+            data: {
+                company_id: +companyId,
+                account_id: +accountId
+            }
+        })
+    }
+
+    async delete(accountId: number) {
+        await this.prisma.employer.delete({
+            where: {
+                account_id: +accountId
+            }
+        })
+    }
 }
