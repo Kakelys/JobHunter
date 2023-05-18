@@ -21,11 +21,6 @@ export class HttpResponseException implements HttpInterceptor {
           switch (err.status) {
             case 400:
               if (Array.isArray(err.error.message)) {
-                /*
-                Object.keys(err.error.errors).forEach(key => {
-                  errors.push(err.error.errors[key][0]);
-                });
-                */
                 return throwError(err.error.message.join('\n'));
               }
 
@@ -35,7 +30,7 @@ export class HttpResponseException implements HttpInterceptor {
 
               break;
             case 401: return throwError("Unauthorized");
-            case 403: return throwError("Access denied");
+            case 403: return throwError(err.error.message ? err.error.message : "Access denied");
             case 500: return throwError("Something went wrong(");
           }
         }

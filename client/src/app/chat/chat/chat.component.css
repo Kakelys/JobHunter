@@ -1,0 +1,35 @@
+.send {
+  border: 0px;
+  background: transparent;
+  color: black;
+}
+
+.send:hover {
+  color: darkgrey;
+}
+
+.text {
+  overflow:hidden;
+}
+
+.messages {
+  max-height: 50vh;
+  min-height: 40vh;
+  overflow:hidden;
+  overflow-y:auto;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #CFCFCF;
+  border-radius: 45px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #3069a1;
+  border-radius: 45px;
+}

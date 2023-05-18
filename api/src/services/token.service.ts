@@ -4,7 +4,6 @@ import { TokenDataService } from "src/data/data-services/token-data.service";
 import { JwtDto } from 'src/shared/auth/jwt.model';
 import { jwtConstants } from 'src/shared/auth/jwt-constants';
 import { JwtPayload } from 'src/shared/auth/jwt-payload.model';
-import { Employer } from 'src/shared/employer-response.model';
 
 @Injectable()
 export class TokenService {

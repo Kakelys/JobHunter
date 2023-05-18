@@ -1,0 +1,43 @@
+<div >
+  <div class="row row d-flex align-content-center fw-bold">
+    <div class="col">Name</div>
+    <div class="col">Hr</div>
+    <div class="col" *ngIf="user?.employer?.companyId == company?.id"></div>
+  </div>
+  <hr class="mb-1">
+  <div *ngFor="let member of members">
+    <div class="row row d-flex align-items-center">
+    <div class="col"><a class="app-link" routerLink="/user/{{member.accountId}}">{{member.name}}</a></div>
+    <div class="col">{{member.isHr ? 'Yes': "No"}}</div>
+    <div class="col d-flex justify-items-center" *ngIf="user?.employer?.companyId == company.id">
+      <button
+        class="btn btn-success"
+        *ngIf="!member.isHr && user?.id == company.ownerId"
+        (click)="updateStatus(member.accountId, true)">
+        Promote
+      </button>
+      <button
+        class="btn btn-outline-danger ms-2"
+        *ngIf="user?.id == company.ownerId && member.isHr"
+        (click)="updateStatus(member.accountId, false)">
+        Demote
+      </button>
+      <button
+        class="btn btn-outline-danger ms-2"
+        *ngIf="user?.employer?.isHr"
+        (click)="kick(member.accountId)">
+        Kick
+      </button>
+    </div>
+    </div>
+    <hr class="mt-1 mb-1">
+  </div>
+  <div class="d-flex justify-content-center pt-2">
+    <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+
+    <button class="btn btn-outline-info" (click)="loadPage()" *ngIf="canLoadMore && !isLoading">
+      Load more
+    </button>
+  </div>
+
+</div>

@@ -1,0 +1,18 @@
+
+<div class="d-flex">
+  <form (ngSubmit)="onSubmit()">
+    <div class="d-flex">
+      <div>
+        <input type="text"
+        id="search" name="search"
+        class="form-control"
+        placeholder="Job name"
+        [(ngModel)]="searchText"
+        style="height: 2em; font-size:1.3em">
+      </div>
+      <div class="ps-2">
+        <button class="btn btn-primary" type="submit">Find</button>
+      </div>
+    </div>
+  </form>
+</div>

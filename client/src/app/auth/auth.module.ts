@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './auth.guard';
+import { AuthHrGuard } from './auth-hr.guard';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { AuthGuard } from './auth.guard';
       { path: 'login', component: LoginComponent }
     ]),
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [AuthService, AuthGuard, AuthHrGuard],
   exports: [
     RegisterComponent,
     LoginComponent

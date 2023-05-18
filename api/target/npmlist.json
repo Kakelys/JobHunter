@@ -1,0 +1,66 @@
+{
+  "version": "0.0.1",
+  "name": "api",
+  "dependencies": {
+    "@nestjs/common": {
+      "version": "9.3.9",
+      "resolved": "https://registry.npmjs.org/@nestjs/common/-/common-9.3.9.tgz",
+      "overridden": false
+    },
+    "@nestjs/core": {
+      "version": "9.3.9",
+      "resolved": "https://registry.npmjs.org/@nestjs/core/-/core-9.3.9.tgz",
+      "overridden": false
+    },
+    "@nestjs/jwt": {
+      "version": "10.0.3",
+      "resolved": "https://registry.npmjs.org/@nestjs/jwt/-/jwt-10.0.3.tgz",
+      "overridden": false
+    },
+    "@nestjs/platform-express": {
+      "version": "9.3.9",
+      "resolved": "https://registry.npmjs.org/@nestjs/platform-express/-/platform-express-9.3.9.tgz",
+      "overridden": false
+    },
+    "@nestjs/swagger": {
+      "version": "6.3.0",
+      "resolved": "https://registry.npmjs.org/@nestjs/swagger/-/swagger-6.3.0.tgz",
+      "overridden": false
+    },
+    "@prisma/client": {
+      "version": "4.12.0",
+      "resolved": "https://registry.npmjs.org/@prisma/client/-/client-4.12.0.tgz",
+      "overridden": false
+    },
+    "@types/bcrypt": {
+      "version": "5.0.0",
+      "resolved": "https://registry.npmjs.org/@types/bcrypt/-/bcrypt-5.0.0.tgz",
+      "overridden": false
+    },
+    "bcrypt": {
+      "version": "5.1.0",
+      "resolved": "https://registry.npmjs.org/bcrypt/-/bcrypt-5.1.0.tgz",
+      "overridden": false
+    },
+    "class-transformer": {
+      "version": "0.5.1",
+      "resolved": "https://registry.npmjs.org/class-transformer/-/class-transformer-0.5.1.tgz",
+      "overridden": false
+    },
+    "class-validator": {
+      "version": "0.14.0",
+      "resolved": "https://registry.npmjs.org/class-validator/-/class-validator-0.14.0.tgz",
+      "overridden": false
+    },
+    "reflect-metadata": {
+      "version": "0.1.13",
+      "resolved": "https://registry.npmjs.org/reflect-metadata/-/reflect-metadata-0.1.13.tgz",
+      "overridden": false
+    },
+    "rxjs": {
+      "version": "7.8.0",
+      "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-7.8.0.tgz",
+      "overridden": false
+    }
+  }
+}

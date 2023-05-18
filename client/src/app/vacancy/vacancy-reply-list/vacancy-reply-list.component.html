@@ -2,9 +2,13 @@
   <ng-template #loading>
     <app-loading-spinner></app-loading-spinner>
   </ng-template>
-  <div *ngIf="!isLoading; else loading">
-    <div *ngFor="let reply of replies" class="shadow p-3 mb-2 bg-body rounded w-25">
-      <div class="d-flex justify-content-end text-muted">
+  <ng-container *ngIf="!isLoading && replies?.length == 0">
+    <span class="h5">No replies</span>
+  </ng-container>
+
+  <div *ngIf="!isLoading; else loading" class="d-flex flex-wrap">
+    <div *ngFor="let reply of replies" class="position-relative shadow p-3 m-2 bg-body rounded" style="width: 30%;">
+      <div class="position-absolute top-0 end-0 pe-2 text-muted">
         {{reply.date | date:'h:mm a, d, MMM'}}
       </div>
       <div>

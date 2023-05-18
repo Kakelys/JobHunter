@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="d-flex" #chatWrapper>
+    <div style="max-width: 20%;" class="chat-wrapper chats border rounded-start flex-grow-1">
+      <div *ngFor="let message of lastMessages" class="chat"
+        routerLink="/chat/{{message.from.id == user?.id ? message.to.id : message.from.id}}">
+        <div class="p-2">
+          <div>
+            {{message.from.name | slice:0:15}}{{message.from.name.length > 15 ? '...' : ''}}
+          </div>
+          <div class="text-muted" style="font-size:0.9em">
+            <div>{{message.text | slice:0:20}}</div>
+            <div style="font-size:0.7em">{{message.date | date:'h:mm a, d MMM'}}</div>
+          </div>
+        </div>
+        <hr class="m-0">
+      </div>
+      <div class="d-flex justify-content-center pt-2">
+        <button class="btn btn-outline-info" (click)="loadPage()" *ngIf="canLoadMore">Load more</button>
+
+        <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+
+      </div>
+    </div>
+    <app-chat class="flex-grow-1 chat-wrapper align-content-around" (messageForDiffChat)="tryUpdateChat($event)"></app-chat>
+  </div>
+
+</div>

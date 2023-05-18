@@ -43,7 +43,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.profileService.getByIdDetail(this.route.snapshot.params?.id)
     .subscribe({
       next: profile => {
-        console.log(profile, this.user);
         this.profile = profile;
         this.isLoading = false;
       },

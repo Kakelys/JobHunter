@@ -18,6 +18,7 @@ import {
   sendFill,
   bookmarkPlusFill,
   bookmarkFill,
+  trashFill,
 } from "ngx-bootstrap-icons";
 
 import { heroPaperAirplane } from "@ng-icons/heroicons/outline";
@@ -40,7 +41,12 @@ const icons = {
   heroPaperAirplane,
   bookmarkPlusFill,
   bookmarkFill,
+  trashFill,
 }
+
+// TODO:
+//probably not optimized because sizing on NgIcons with bootstrap icons doen't work and i used both
+// and, mb, create one more property with icons for NgIcons
 
 //<i-bs name="briefcase-fill"></i-bs>
 //<ng-icon name="featherAirplay"></ng-icon>

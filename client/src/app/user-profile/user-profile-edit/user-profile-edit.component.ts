@@ -3,6 +3,7 @@ import { UserProfileService } from '../user-profile.service';
 import { UserDetail } from 'src/shared/user-detail.model';
 import { NgForm } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-user-profile-edit',
@@ -21,13 +22,15 @@ export class UserProfileEditComponent {
 
   constructor(
     private profileService: UserProfileService,
-    private toastr: ToastrService) {}
+    private toastr: ToastrService,
+    private authService: AuthService) {}
 
   onSubmit(form: NgForm) {
     this.profileService.updateProfile(this.profile.id, form.value)
       .subscribe({
         next: _ => {
           this.toastr.success('Profile updated successfully');
+          this.authService.autoAuth()?.subscribe();
           this.updated.emit();
         },
         error: err => {

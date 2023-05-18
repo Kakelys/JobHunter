@@ -24,8 +24,16 @@ export class MessageController {
         @Query('account_id') accountId: number,
         @Query('page') page: number,
         @Query('to_take') toTake: number,
+        @Query('diff') diff: number,
         @Req() req: Request) {
         let pageObj = new Page(page, toTake);
-        return await this.messageService.getMessages(req['payload'], accountId, pageObj);
+        return await this.messageService.getMessages(req['payload'], accountId, pageObj, diff);
+    }
+
+    @UseGuards(JwtGuard)
+    @Get('chats?')
+    async getChats(@Req() req: Request, @Query('page') page: number, @Query('to_take') toTake: number) {
+        let pageObj = new Page(page, toTake);
+        return await this.messageService.getChats(req['payload'], pageObj);
     }
 }

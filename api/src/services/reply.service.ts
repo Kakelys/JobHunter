@@ -13,9 +13,17 @@ export class ReplyService {
         private vacancyData: VacancyDataService) {}
 
     async create(payload: JwtPayload, vacancyId: number) {
-        const vac = await this.replyData.getByAccountAndVacancy(payload.sub, vacancyId);
-        if(vac)
+        const reply = await this.replyData.getByAccountAndVacancy(payload.sub, vacancyId);
+
+        const vacancy = await this.vacancyData.getById(vacancyId);
+        if(!vacancy)
+            throw new NotFoundException('Vacancy not found');
+
+        if(reply)
             throw new BadRequestException('You have already replied to this vacancy');
+
+        if(!vacancy.is_active)
+            throw new BadRequestException('The vacancy is closed');
 
         await this.replyData.create(payload, vacancyId);
     }
@@ -27,9 +35,7 @@ export class ReplyService {
             throw new NotFoundException('Reply not found');
 
         //only hr can update replies state
-        if(reply.vacancy.company_id != payload.employer.companyId 
-            || reply.vacancy.company_id == payload.employer.companyId && !payload.employer.isHr
-            )
+        if(reply.vacancy.company_id != payload.employer.companyId || !payload.employer.isHr)
             throw new ForbiddenException('You are not allowed to update this reply');
 
         await this.replyData.update(replyId, status);
@@ -59,6 +65,10 @@ export class ReplyService {
             throw new ForbiddenException('You are not allowed to view this vacancy replies');
 
         return await this.replyData.getCountByVacancy(vacancyId);
+    }
+
+    async getByAccount(payload: JwtPayload, page: Page) {
+        return await this.replyData.getByAccount(payload.sub, page);
     }
 
 }

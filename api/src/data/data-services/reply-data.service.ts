@@ -101,6 +101,46 @@ export class ReplyDataService {
         });
     }
 
+    async getByAccount(accountId: number, page: Page) : Promise<ReplyResponse[]> {
+        const replies = await this.prisma.reply.findMany({
+            where: {
+                account_id: +accountId
+            },
+            include: {
+                vacancy: true,
+                account: {
+                    include: {
+                        accountInfo: true
+                    }
+                }
+            },
+            orderBy: {
+                date: 'desc'
+            },
+            skip: ((page.page - 1) * page.toTake),
+            take: +page.toTake,
+        });
+
+        if(replies.length == 0)
+            return null;
+
+        return replies.map(reply => {
+            return {
+                id: reply.id,
+                date: reply.date,
+                status: reply.status,
+                vacancy: {
+                    id: reply.vacancy.id,
+                    title: reply.vacancy.title
+                },
+                account: {
+                    id: reply.account.id,
+                    name: reply.account.accountInfo.name
+                }
+            }
+        });
+    }
+
     async getByAccountAndCompany(accountId: number, companyId: number, page: Page) : Promise<ReplyResponse[]> {
         const replies = await this.prisma.reply.findMany({
             where: {

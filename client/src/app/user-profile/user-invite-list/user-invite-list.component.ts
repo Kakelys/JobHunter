@@ -77,6 +77,7 @@ export class UserInviteListComponent implements OnInit {
       next: () => {
         this.toastr.success('Invite accepted');
         this.authService.autoAuth()?.subscribe();
+        this.invites = this.invites.filter(i => i.id != inviteId);
         this.updated.emit();
       },
       error: err => {

@@ -11,6 +11,9 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class LoginComponent implements OnInit {
 
+  isLoading = false;
+  model: any;
+
   constructor(
     private authService: AuthService,
     private router: Router,
@@ -20,21 +23,25 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    if (!form.valid) {
+    if (!form.valid || this.isLoading) {
       return;
     }
+
+    this.isLoading = true;
+    this.model = {...form.value, password: undefined};
 
     this.authService.login(form.value)
       .subscribe({
         next: _ => {
           this.toastr.success('Login successful!');
           this.router.navigate(['/']);
+          this.isLoading = false;
         },
         error: err => {
           this.toastr.error(err);
+          this.isLoading = false;
         }
       });
-
   }
 
 }

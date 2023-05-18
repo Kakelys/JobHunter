@@ -52,6 +52,17 @@
         </li>
         <li [ngbNavItem]="2" class="ps-2">
           <button ngbNavLink>
+            <i-bs name="people-fill"></i-bs>
+            Replies
+          </button>
+          <ng-template ngbNavContent>
+            <div class="container">
+              <app-user-reply-list [profile]="profile"></app-user-reply-list>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="3" class="ps-2">
+          <button ngbNavLink>
             <i-bs name="gear"></i-bs>
           </button>
           <ng-template ngbNavContent>
@@ -61,15 +72,16 @@
           </ng-template>
         </li>
       </ul>
-      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      <div [ngbNavOutlet]="nav" class="mt-2 pb-3"></div>
     </div>
 
-    <div class="container pt-2" *ngIf="profile.about">
-      <pre>{{profile.about}}</pre>
+    <div class="container pt-2 pb-5" *ngIf="profile.about">
+      <pre><span class="inner-pre">{{profile.about}}</span></pre>
     </div>
     <ng-template #profileNotFound>
       <h5>Profile not found</h5>
     </ng-template>
+
   </ng-template>
 
 </div>

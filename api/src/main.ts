@@ -4,7 +4,16 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const fs = require('fs');
+  const keyFile  = fs.readFileSync(__dirname + './../' + process.env.SSL_KEY);
+  const certFile = fs.readFileSync(__dirname + './../' + process.env.SSL_CERT);
+
+const app = await NestFactory.create(AppModule, {
+    httpsOptions: {
+      key: keyFile,
+      cert: certFile,
+    }
+  });
 
   app.enableCors({
     origin: [
@@ -15,16 +24,15 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-    .setTitle('Some title')
-    .setDescription('API description')
+    .setTitle('Work finder (swagger)')
+    .setDescription('All enpoints(uncluding test part)')
     .setVersion('1.0')
-    .addTag('tag')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 
   app.useGlobalPipes(new ValidationPipe());
   
-  await app.listen(3000);
+  await app.listen(process.env.PORT);
 }
 bootstrap();

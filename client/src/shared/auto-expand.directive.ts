@@ -16,6 +16,19 @@ export class AutoExpandDirective{
     elementRef.nativeElement.style.maxHeight = this.maxHeight + 'px';
   }
 
+  @HostListener('keydown.tab', ['$event']) onKeydownTab(event: KeyboardEvent) {
+    event.preventDefault();
+
+    let el = this.elementRef.nativeElement;
+
+    let start = el.selectionStart;
+    var end = el.selectionEnd;
+
+    el.value = el.value.substring(0 , start) + '\t' + el.value.substring(end)
+
+    el.selectionStart = el.selectionEnd = start + 1;
+  }
+
   @HostListener('keyup')
   onKeyUp() {
     this.setCurHeight();

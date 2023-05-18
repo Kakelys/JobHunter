@@ -2,45 +2,63 @@ import { Injectable } from '@angular/core';
 import {
   HttpRequest,
   HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
   HttpErrorResponse
 } from '@angular/common/http';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, switchMap, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export class AuthInterceptor  {
 
   constructor(private authService: AuthService) {}
 
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
-  ): Observable<HttpEvent<Object>> {
+  ) {
+
     const accessToken = localStorage.getItem('access-token');
     if (!accessToken) return next.handle(req);
 
-    const modifiedReq = req.clone({
+    let modifiedReq = req.clone({
       headers: req.headers.append('Authorization', 'Bearer ' + accessToken),
     });
 
     return next.handle(modifiedReq).pipe(
       catchError((err) => {
         // If it's Unauthorized try to refresh tokens and resend request
+        console.log(err);
         if(err instanceof HttpErrorResponse && err.status === 401) {
           localStorage.removeItem('access-token');
           if(!localStorage.getItem('refresh-token')) {
+            this.authService.logout();
             return throwError(err);
           }
 
-          var tmp = this.authService.autoAuth().subscribe({
-            next: _ => {return next.handle(modifiedReq)},
-            error: _ => {return throwError(new Error('Failed to login'))}
-          });
+          return this.authService.autoAuth().pipe(
+            switchMap(() => {
+              const accessToken = localStorage.getItem('access-token');
+
+              if (!accessToken)
+                return next.handle(req);
+
+              modifiedReq = req.clone({
+                headers: req.headers.append('Authorization', 'Bearer ' + accessToken),
+              });
+
+              return next.handle(modifiedReq);
+            }),
+            catchError((err) => {
+              if(err == "Unauthorized")
+                this.authService.logout();
+              return throwError(err);
+            })
+          );
+        } else {
+          return throwError(err);
         }
 
-        return throwError(err);
+
       })
     );
   }

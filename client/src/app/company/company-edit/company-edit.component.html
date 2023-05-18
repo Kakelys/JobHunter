@@ -5,7 +5,7 @@
   <ng-template #companyEditFormTemplate>
     <form #companyEditForm="ngForm" (ngSubmit)="onSubmit(companyEditForm)">
       <div class="form-group mt-1">
-        <label for="name" class="ps-1">Company name:</label>
+        <label for="name" class="ps-1">Company name<span class="text-danger">*</span></label>
         <input type="text"
           class="form-control"
           id="name"
@@ -22,29 +22,46 @@
         >
       </div>
       <div class="form-group mt-1">
-        <label for="website" class="ps-1">Website:</label>
+        <label for="website" class="ps-1">Website</label>
         <input type="text"
           class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              companyEditForm.website?.name?.invalid &&
+              companyEditForm.website?.name?.touched
+          }"
           id="website"
           name="website"
           [ngModel]="company.website"
           placeholder="Type your website here"
+          maxlength="100"
         >
       </div>
       <div class="form-group mt-1">
-        <label for="phone" class="ps-1">Phone:</label>
+        <label for="phone" class="ps-1">Phone</label>
         <input type="text"
           class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              companyEditForm.phone?.name?.invalid &&
+              companyEditForm.phone?.name?.touched
+          }"
           id="phone"
           name="phone"
           [ngModel]="company.phone"
           placeholder="Type company phone here"
+          maxlength="30"
         >
       </div>
       <div class="form-group mt-1">
-        <label for="about" class="ps-1">About:</label>
+        <label for="about" class="ps-1">Description</label>
         <textarea type="textarea"
           class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              companyEditForm.about?.name?.invalid &&
+              companyEditForm.about?.name?.touched
+          }"
           id="about"
           name="about"
           [ngModel]="company.about"

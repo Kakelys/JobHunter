@@ -1,0 +1,12 @@
+.trash {
+  color: darkred;
+  cursor: pointer;
+}
+
+.trash:hover {
+  color: red;
+}
+
+.trash:active {
+  background-color: var(--clicked-bg);
+}

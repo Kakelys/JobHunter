@@ -3,6 +3,12 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+:root {
+  --link-color: #caa732;
+  --clicked-bg: lightblue;
+  --hover-bg: lightblue;
+}
+
 .app-link {
   cursor: pointer;
   color: black;
@@ -15,7 +21,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 }
 
 .app-link:hover {
-  color: #caa732;
+  color: var(--link-color)
 }
 
 pre {

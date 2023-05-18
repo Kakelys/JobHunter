@@ -3,11 +3,11 @@ export class Reply {
   date: Date;
   status: string;
   vacancy: {
-      id: number;
-      title: string;
+    id: number;
+    title: string;
   }
   account: {
-      id: number;
-      name: string;
+    id: number;
+    name: string;
   }
 }

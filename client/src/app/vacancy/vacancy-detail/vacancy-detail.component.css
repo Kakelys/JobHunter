@@ -1,0 +1,15 @@
+:host {
+  --favorite-color: #900C3F;
+}
+
+.favorite:hover {
+  color: var(--link-color);
+}
+
+.favorite:active {
+  background-color: var(--clicked-bg);
+}
+
+.favorite .show{
+  color: var(--favorite-color)
+}

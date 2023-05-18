@@ -1,8 +1,4 @@
 <div class="container">
-  <div *ngIf="!user">
-    Nothing here?
-    <a routerLink="/login" class="link text-decoration-none">Login first</a>
-  </div>
 
   <div *ngIf="!user?.employer && user">
     <div>Still not in the company?</div>

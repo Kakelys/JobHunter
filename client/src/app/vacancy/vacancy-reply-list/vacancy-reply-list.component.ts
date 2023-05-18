@@ -15,10 +15,10 @@ export class VacancyReplyListComponent implements OnInit {
   @Input()
   vacancy: VacancyDetail;
 
-  isLoading = true;
+  isLoading = false;
   page = 1;
   toTake = 30;
-  canLoadMore = true;
+  canLoadMore = false;
 
   replies: Reply[] = [];
 
@@ -28,6 +28,8 @@ export class VacancyReplyListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.canLoadMore = this.vacancy.replies > 0;
+
     this.loadPage();
   }
 
@@ -39,8 +41,14 @@ export class VacancyReplyListComponent implements OnInit {
     this.replyService.getByVacancy(this.vacancy.id, this.page, this.toTake)
     .subscribe({
       next: (replies: Reply[]) => {
-        this.replies.push(...replies);
         this.isLoading = false;
+
+        if(!replies){
+          this.canLoadMore = false;
+          return;
+        }
+
+        this.replies.push(...replies);
         this.canLoadMore = replies.length < this.vacancy.replies;
         this.page++;
       },

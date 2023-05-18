@@ -1,0 +1,28 @@
+<div class="container">
+
+  <div *ngIf="!isLoading && favorites.length == 0" class="h5">
+    Seems, you have no favorites yet.
+  </div>
+
+  <div>
+
+    <div class="d-flex flex-wrap">
+      <app-vacancy-element *ngFor="let fav of favorites" [vacancy]="fav.vacancy" style="width: 45%">
+        <div class="text-muted">
+          Added: {{fav.date | date: 'dd.MM.yyyy'}}
+        </div>
+        <div class="position-absolute bottom-0 end-0">
+          <button class="btn trash" (click)="delete(fav.id)">
+            <i-bs name="trash-fill"></i-bs>
+          </button>
+        </div>
+      </app-vacancy-element>
+    </div>
+
+    <div class="d-flex justify-content-center pt-3 pb-3" style="padding-right: 10%;">
+      <button class="btn btn-outline-info" (click)="loadPage()" *ngIf="!isLoading && canLoadMore;">Load more</button>
+      <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+    </div>
+  </div>
+
+</div>

@@ -10,18 +10,33 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  constructor(private authService: AuthService, private router: Router, private toastr: ToastrService) {}
+
+  isLoading = false;
+  model: any;
+
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ToastrService) {}
 
   ngOnInit(): void {}
 
   onSubmit(form: NgForm) {
-    if (form.invalid) return;
+    if (form.invalid || this.isLoading)
+      return;
+
+    this.isLoading = true;
+    this.model = {...form.value, password: undefined};
 
     this.authService.register(form.value).subscribe({
       next: () => {
         this.router.navigate(['/']);
+        this.isLoading = false;
       },
-      error: (err) => {this.toastr.error(err)},
+      error: (err) => {
+        this.toastr.error(err);
+        this.isLoading = false;
+      },
     });
   }
 }

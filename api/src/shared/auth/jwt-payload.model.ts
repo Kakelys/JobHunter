@@ -1,4 +1,4 @@
-import { Employer } from "../employer-response.model";
+import { Employer } from "../employer/employer.model";
 
 export interface JwtPayload {
     sub: number;

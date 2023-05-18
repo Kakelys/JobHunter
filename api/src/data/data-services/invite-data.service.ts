@@ -56,26 +56,6 @@ export class InviteDataService {
             select: {
                 id: true,
                 date: true,
-                company: {
-                    select: {
-                        id: true,
-                        name: true
-                    }
-                },
-                inviter: {
-                    select: {
-                        account: {
-                            select: {
-                                id: true,
-                                accountInfo: {
-                                    select: {
-                                        name: true,
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
                 account: {
                     select: {
                         id: true,
@@ -86,6 +66,9 @@ export class InviteDataService {
                         }
                     }
                 }
+            },
+            orderBy: {
+                date: 'desc'
             },
             skip: ((page.page - 1) * page.toTake),
             take: +page.toTake
@@ -98,13 +81,9 @@ export class InviteDataService {
             return {
                 id: invite.id,
                 date: invite.date,
-                company: {
-                    id: invite.company.id,
-                    name: invite.company.name
-                },
-                inviter: {
-                    id: invite.inviter.account.id,
-                    name: invite.inviter.account.accountInfo.name
+                account: {
+                    id: invite.account.id,
+                    name: invite.account.accountInfo.name
                 }
             }
         });

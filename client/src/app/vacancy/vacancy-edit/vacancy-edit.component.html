@@ -1,1 +1,88 @@
-<p>vacancy-edit works!</p>
+<div class="container">
+  <div class="w-50">
+
+    <app-loading-spinner *ngIf="isLoading; else vacancyEditForm"></app-loading-spinner>
+
+    <ng-template #vacancyEditForm>
+      <form (ngSubmit)="save(vacancyNewForm)" #vacancyNewForm="ngForm">
+        <div class="form-group w-75">
+          <label for="title" class="ps-1">Title<span class="text-danger">*</span></label>
+          <input type="text"
+            class="form-control"
+            id="title" name="title"
+            [ngModel]="vacancy.title"
+            required
+            [ngClass]="{
+              'is-invalid':
+                vacancyNewForm.controls?.title?.invalid &&
+                vacancyNewForm.controls?.title?.touched
+            }"
+            minlength="5"
+            maxlength="255"
+            placeholder="Manager | Software Developer, etc."
+            >
+        </div>
+        <div class="form-group pt-2 w-50">
+          <label for="salary" class="ps-1">
+            Salary
+          </label>
+          <input type="text"
+            class="form-control"
+            id="salary" name="salary"
+            [ngClass]="{
+              'is-invalid':
+                vacancyNewForm.controls?.salary?.invalid &&
+                vacancyNewForm.controls?.salary?.touched
+            }"
+            [ngModel]="vacancy.salary"
+            minlength="3"
+            maxlength="20"
+            placeholder="300-400$"
+            >
+        </div>
+        <div class="form-group pt-2">
+          <label for="description" class="ps-1">
+            Description<span class="text-danger">*</span>
+          </label>
+          <textarea type="textarea"
+            class="form-control"
+            id="description" name="description"
+            [ngClass]="{
+              'is-invalid':
+                vacancyNewForm.controls?.description?.invalid &&
+                vacancyNewForm.controls?.description?.touched
+            }"
+            [ngModel]="vacancy.description"
+            required
+            minlength="1"
+            placeholder="Type vacancy description here"
+            autoExpand
+          >
+          </textarea>
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="isActive" name="isActive"
+              [ngModel]="vacancy.isActive"
+              >
+            <label
+              class="form-check-label"
+              for="isActive"
+              >Active</label>
+          </div>
+        </div>
+        <div class="pt-2 pb-2 d-flex position-relative">
+          <div>
+            <button class="btn btn-success" [disabled]="vacancyNewForm.invalid">Save</button>
+          </div>
+          <div class="ms-auto">
+            <button class="btn btn-outline-danger" type="button" [disabled]="isLoading" (click)="delete()">
+              Delete
+            </button>
+          </div>
+        </div>
+      </form>
+    </ng-template>
+  </div>
+</div>

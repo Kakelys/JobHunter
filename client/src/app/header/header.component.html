@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg pb-0 bg-body-tertiary">
   <div class="container-fluid">
-    <div class="div">
+    <div>
       <a class="navbar-brand mb-0 h5" routerLink="/">Job Hunter</a>
     </div>
     <button
@@ -16,7 +16,7 @@
       (window:resize)="collapsed = true"
     >
       <ul class="navbar-nav">
-        <li class="nav-item">
+        <li *ngIf="user" class="nav-item app-link">
           <a
             class="mb-0 ps-3 pe-3 btn btn-outline h6"
             routerLinkActive="active"
@@ -24,7 +24,15 @@
             Company
           </a>
         </li>
-        <li *ngIf="user?.employer?.isHr" class="nav-item">
+        <li class="nav-item app-link">
+          <a
+            class="mb-0 ps-3 pe-3 btn btn-outline h6"
+            routerLinkActive="active"
+            routerLink="/vacancies">
+            Vacancies
+          </a>
+        </li>
+        <li *ngIf="user?.employer?.isHr" class="nav-item app-link">
           <a
             class="mb-0 ps-3 pe-3 btn btn-outline h6"
             routerLinkActive="active"
@@ -40,7 +48,7 @@
             routerLinkActive="active"
             routerLink="/login"
             *ngIf="!user">
-            Log in | up
+            Sign in | up
           </a>
         </li>
         <li *ngIf="user" class="nav-item">
@@ -48,16 +56,30 @@
             <button type="button" class="btn btn-outline-primary" id="profileDropdown" ngbDropdownToggle>
               {{user.name}}
             </button>
-            <div ngbDropdownMenu aria-labelledby="profileDropdown" style="border: 0px; background: transparent;">
-              <div class="d-flex justify-content-center border rounded bg-white" >
-                <div class="my-auto">
+            <div ngbDropdownMenu aria-labelledby="profileDropdown"  style="border:0px;background:transparent;">
+              <div style="width: min-content;" class="border rounded bg-white">
+                <div class="d-flex justify-content-center">
                   <a class="app-link">
                     <button class="btn" routerLink="/user/{{user.id}}">
                       Profile
                     </button>
                   </a>
                 </div>
-                <div>
+                <div class="d-flex justify-content-center">
+                  <a class="app-link">
+                    <button class="btn" routerLink="/favorite">
+                      Favorites
+                    </button>
+                  </a>
+                </div>
+                <div class="d-flex justify-content-center">
+                  <a class="app-link">
+                    <button class="btn" routerLink="/chat">
+                      Chats
+                    </button>
+                  </a>
+                </div>
+                <div >
                   <button class="btn btn-outline-danger" (click)="onLogout()" style="width: 100px;">Logout</button>
                 </div>
               </div>

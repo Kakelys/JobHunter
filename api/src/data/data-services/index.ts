@@ -7,5 +7,5 @@ export * from './employer-data.service';
 export * from './message-data.service';
 export * from './invite-data.service';
 export * from './token-data.service';
-
+export * from './favorite-data.service'
 

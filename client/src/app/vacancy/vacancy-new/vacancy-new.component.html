@@ -29,6 +29,11 @@
           <input type="text"
             class="form-control"
             id="salary" name="salary"
+            [ngClass]="{
+              'is-invalid':
+                vacancyNewForm.controls?.salary?.invalid &&
+                vacancyNewForm.controls?.salary?.touched
+            }"
             minlength="3"
             maxlength="20"
             ngModel
@@ -51,6 +56,7 @@
             required
             minlength="1"
             placeholder="Type vacancy description here"
+            autoExpand
           >
           </textarea>
         </div>

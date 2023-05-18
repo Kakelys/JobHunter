@@ -1,28 +1,35 @@
 import { NgModule } from "@angular/core";
-import { ChatComponent } from "./chat.component";
+import { ChatComponent } from "./chat/chat.component";
 import { SharedModule } from "src/shared/shared.module";
 import { RouterModule } from "@angular/router";
 import { ChatService } from "./chat.service";
 import { MessageComponent } from './message/message.component';
-import { LoadingSpinnerComponent } from "../loading-spinner/loading-spinner.component";
+import { AuthGuard } from "../auth/auth.guard";
+import { WebsocketChatService } from "./websocket/websocket-chat.service";
+import { ChatWrapperComponent } from "./chat-wrapper/chat-wrapper.component";
+
 
 @NgModule({
   declarations: [
     ChatComponent,
-    MessageComponent
-
+    MessageComponent,
+    ChatWrapperComponent
   ],
   imports: [
     SharedModule,
     RouterModule.forChild([
-      { path: 'chat/:id', component: ChatComponent },
+      { path: 'chat/:id', component: ChatWrapperComponent, canActivate: [AuthGuard]},
+      { path: 'chat', component: ChatWrapperComponent, canActivate: [AuthGuard]}
     ]),
   ],
   providers: [
-    ChatService
+    ChatService,
+    WebsocketChatService
   ],
   exports: [
     ChatComponent,
+    ChatWrapperComponent,
+    MessageComponent
   ]
 })
 export class ChatModule {}

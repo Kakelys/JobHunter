@@ -1,5 +1,5 @@
+import { Employer } from "../employer/employer.model";
 import { JwtDto } from "./jwt.model";
-import { Employer } from "../employer-response.model";
 
 export class UserDto {
     id: number;

@@ -1,0 +1,32 @@
+.chat {
+  cursor: pointer;
+}
+
+.chat:hover {
+  background: var(--hover-bg);
+}
+
+.chat-wrapper {
+  max-height: 70vh;
+}
+
+.chats {
+  overflow:hidden;
+  overflow-y:auto;
+}
+
+
+::-webkit-scrollbar-track {
+  background-color: #CFCFCF;
+  border-radius: 45px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: #F5F5F5;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #3069a1;
+  border-radius: 45px;
+}

@@ -20,23 +20,17 @@ export class InviteController {
 
         return await this.inviteService.create(data);
     }
+    
+    @UseGuards(JwtGuard)
+    @Post(':id/accept')
+    async accept(@Req() req: Request, @Param('id') inviteId: number) {
+        await this.inviteService.acceptInvite(req['payload'], inviteId);
+    }
 
     @UseGuards(JwtGuard)
     @Delete(':id')
     async delete(@Req() req: Request, @Param('id') inviteId: number) {
-        this.inviteService.delete(req['payload'], inviteId);
-    }
-
-    @UseGuards(JwtGuard)
-    @Post(':id/accept')
-    async accept(@Req() req: Request, @Param('id') inviteId: number) {
-        this.inviteService.accept(req['payload'], inviteId);
-    }
-
-    @UseGuards(JwtGuard)
-    @Post(':id/reject')
-    async reject(@Req() req: Request, @Param('id') inviteId: number) {
-        this.inviteService.delete(req['payload'], inviteId);
+        await this.inviteService.delete(req['payload'], inviteId);
     }
     
 

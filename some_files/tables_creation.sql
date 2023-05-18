@@ -11,6 +11,15 @@ drop table company;
 drop table token;
 drop table account;
 drop table account_info;
+
+SUPER ULTRA IMPORTANT for descriptions fields
+
+create database work_find_coursework 
+ENCODING 'UTF8'
+  LC_COLLATE = 'en_US.UTF-8'
+  LC_CTYPE = 'en_US.UTF-8'
+   TEMPLATE template0;
+
 */
 
 create table account(

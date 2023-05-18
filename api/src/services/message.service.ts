@@ -13,8 +13,12 @@ export class MessageService {
         return await this.messageData.create(payload, msg);
     }
 
-    async getMessages(payload: JwtPayload, accountId: number, page: Page) {
-        return await this.messageData.getMessages(payload, accountId, page);
+    async getMessages(payload: JwtPayload, accountId: number, page: Page, diff: number) {
+        return await this.messageData.getMessages(payload, accountId, page, diff);
+    }
+
+    async getChats(payload: JwtPayload, page: Page) {
+        return await this.messageData.getChats(payload, page);
     }
     
 }

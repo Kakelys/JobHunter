@@ -1,5 +1,5 @@
 import { AccountDataService } from '../data/data-services/account-data.service';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserDto } from 'src/shared/auth/user-dto.model';
 import { TokenService } from './token.service';
 import { TokenDataService } from 'src/data/data-services/token-data.service';
@@ -62,18 +62,23 @@ export class AuthService {
     }
 
     async auth(jwtDto: JwtDto) : Promise<UserDto> {
-        let oldPayload = this.tokenService.getTokenPayload(jwtDto.refreshToken);
+        try {
+            let oldPayload = this.tokenService.getTokenPayload(jwtDto.refreshToken);
 
-        let user = await this.accountDataService.getById(oldPayload.sub);
-        let newTokens = await this.tokenService.refresh(user, jwtDto.refreshToken);
+            let user = await this.accountDataService.getById(oldPayload.sub);
+            let newTokens = await this.tokenService.refresh(user, jwtDto.refreshToken);
 
-        let newPayload = this.tokenService.getTokenPayload(newTokens.refreshToken);
-        return {
-            id: newPayload.sub,
-            name: newPayload.name,
-            isAdmin: newPayload.isAdmin,
-            employer: newPayload.employer,
-            jwt: newTokens
+            let newPayload = this.tokenService.getTokenPayload(newTokens.refreshToken);
+
+            return {
+                id: newPayload.sub,
+                name: newPayload.name,
+                isAdmin: newPayload.isAdmin,
+                employer: newPayload.employer,
+                jwt: newTokens
+            }
+        } catch (error) {
+            throw new BadRequestException("Invalid refresh token");
         }
     }
 }

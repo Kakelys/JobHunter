@@ -6,3 +6,5 @@ export * from './vacancy.controller';
 export * from './invite.controller';
 export * from './message.controller';
 export * from './reply.controller';
+export * from './favorite.controller';
+export * from './employer.controller';

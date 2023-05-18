@@ -1,12 +1,16 @@
 export class InviteResponse {
     id: number;
     date: Date; 
-    inviter: {
+    inviter?: {
         id: number;
         name: string;
     };
-    company: {
+    company?: {
         id: number;
         name: string;
     };
+    account?: {
+        id: number,
+        name: string;
+    }
 }

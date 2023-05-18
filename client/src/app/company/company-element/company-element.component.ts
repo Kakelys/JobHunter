@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CompanyService } from '../company.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -22,11 +22,17 @@ export class CompanyElementComponent implements OnInit, OnDestroy{
   employersCount = 0;
   vacanciesCount = 0;
   isLoading = true;
+  isLeaveLoading = false;
+
+  @ViewChild('companyLink')
+  linkRef: ElementRef;
 
   constructor(
     private companyService: CompanyService,
     private authService: AuthService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    private router: Router,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.paramsSub = this.route.params.subscribe(params => {
@@ -42,6 +48,11 @@ export class CompanyElementComponent implements OnInit, OnDestroy{
     });
   }
 
+  ngOnDestroy(): void {
+    this.paramsSub.unsubscribe();
+    this.userSub.unsubscribe();
+  }
+
   loadCompany() {
     this.isLoading = true;
     const companyId = this.route.snapshot.params['id'];
@@ -50,16 +61,36 @@ export class CompanyElementComponent implements OnInit, OnDestroy{
       next: company => {
         this.company = company;
         this.isLoading = false;
+
       },
       error: err => {
+        this.toastr.error(err);
         this.company = null;
         this.isLoading = false
       }
     });
   }
 
-  ngOnDestroy(): void {
-    this.paramsSub.unsubscribe();
-    this.userSub.unsubscribe();
+  leave() {
+    if(this.isLeaveLoading)
+      return
+    this.isLeaveLoading = true;
+
+    console.log('hehe');
+    this.companyService.leave().subscribe({
+      next: () => {
+        this.authService.autoAuth().subscribe();
+        this.toastr.success('You have left the company');
+        this.router.navigate(['/']);
+      },
+      error: err => {
+        this.toastr.error(err);
+        this.isLeaveLoading = false;
+      }
+    });
+  }
+
+  showFullLink() {
+    this.linkRef.nativeElement.innerHTML = this.company.website;
   }
 }

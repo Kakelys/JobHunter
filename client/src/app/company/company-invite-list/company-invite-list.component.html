@@ -1,0 +1,16 @@
+<div class="d-flex flex-wrap">
+  <div *ngFor="let invite of invites" style="width: 30%;" class="shadow p-3 mb-2 ms-3 bg-body rounded">
+    <div class="h5">
+      <a class="app-link" routerLink="/user/{{invite.account.id}}">{{invite.account.name}}</a>
+    </div>
+    <div class="pt-2 position-relative">
+        <button class="btn btn-outline-danger"
+          (click)="delete(invite.id)">
+          Delete
+        </button>
+      <div style="font-size: 0.9em;" class="text-muted position-absolute bottom-0 end-0">
+        {{invite.date | date:'d, MMM, y'}}
+      </div>
+    </div>
+  </div>
+</div>

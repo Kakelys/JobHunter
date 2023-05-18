@@ -6,4 +6,8 @@ export class Message {
       id: number;
       name: string;
   }
+  to?: {
+    id: number;
+    name: string;
+  }
 }

@@ -1,0 +1,87 @@
+<div>
+  <ng-template #loading>
+    <div *ngIf="!sideUser && !isLoading; else spinner">
+      <span class="h5 p-5" *ngIf="sideUserId; else chose">User not found</span>
+      <ng-template #chose>
+        <div>
+          Chose user to start chat
+        </div>
+        <div>
+          No list of users? go to someone's page and start chatting
+        </div>
+      </ng-template>
+
+    </div>
+    <ng-template #spinner>
+      <app-loading-spinner></app-loading-spinner>
+    </ng-template>
+
+  </ng-template>
+  <div
+    class="border border-top border-bottom-0 border-start-0 border-end-0"
+    *ngIf="sideUser; else loading">
+    <div id="chat-header">
+      <div class="p-2">
+        <a class="app-link h5" routerLink="/user/{{sideUser.id}}">{{sideUser.name}}</a>
+      </div>
+      <hr class="mt-0">
+      <ng-template #emptyChat>
+        <div class="d-flex justify-content-center">
+          <span class="h5">No messages yet</span>
+        </div>
+      </ng-template>
+    </div>
+
+
+    <div class="messages" *ngIf="messages.length > 0; else emptyChat" #messagesBlock>
+      <div class="d-flex justify-content-center">
+        <div *ngIf="canLoadMore && !isLoading">
+          <button class="btn btn-outline-info" (click)="loadPage()">
+            Load more
+          </button>
+        </div>
+        <ng-template #loadingMessages>
+          <app-loading-spinner></app-loading-spinner>
+        </ng-template>
+      </div>
+
+      <div *ngFor="let message of messages" #messagesFor>
+        <div class="container">
+          <div class="d-flex justify-content-end" *ngIf="user?.id == message.from.id;else difMessage">
+            <app-message [message]="message"></app-message>
+          </div>
+
+          <ng-template #difMessage>
+            <div class="d-flex justify-content-start">
+              <app-message [message]="message"></app-message>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+
+    <form #chatMessage="ngForm" id="message-form" (ngSubmit)="sendMessage(chatMessage)">
+      <div class="form-group d-flex">
+        <textarea
+          type="text"
+          style="border-left: 0px; border-radius: 0px;"
+          class="form-control rounded-end"
+          id="message"
+          name="message"
+          ngModel
+          required
+          minlength="1"
+          maxlength="3000"
+          placeholder="Enter your message here..."
+          autoExpand
+          (keydown)="onMessageKeyDown($event, chatMessage)"
+        >
+      </textarea>
+      <button class="btn send" type="submit" [disabled]="false" *ngIf="chatMessage.controls.message?.valid">
+        <ng-icon name="heroPaperAirplane" size="30px"></ng-icon>
+      </button>
+      </div>
+    </form>
+
+  </div>
+</div>

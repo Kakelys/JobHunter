@@ -2,6 +2,7 @@ import { TokenService } from './../services/token.service';
 import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { jwtConstants } from "src/shared/auth/jwt-constants";
+import { JwtPayload } from 'src/shared/auth/jwt-payload.model';
 
 @Injectable()
 export class JwtGuard implements CanActivate {
@@ -20,12 +21,11 @@ export class JwtGuard implements CanActivate {
                 {
                     secret: jwtConstants.secret
                 }
-            );
+            ) as JwtPayload;
             
-            request['payload'] = this.tokenSevice.getTokenPayload(token);
+            request['payload'] = payload;
         } 
         catch (err) {
-            console.log(err);
             throw new UnauthorizedException();
         }
         return true;

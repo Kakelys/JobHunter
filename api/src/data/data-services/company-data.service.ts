@@ -78,7 +78,7 @@ export class CompanyDataService {
     async delete(id: number) {
         return await this.prisma.company.delete({
             where: {
-                id: id
+                id: +id
             }
         });
     }

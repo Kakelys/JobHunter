@@ -37,6 +37,6 @@ export class UserProfileService {
     }
 
     reject(inviteId: number) {
-      return this.http.post(env.apiUrl + 'v1/invites/'+ inviteId +'/reject', {});
+      return this.http.delete(env.apiUrl + 'v1/invites/'+ inviteId);
     }
 }

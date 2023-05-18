@@ -3,22 +3,45 @@ import { PrismaService } from "../prisma.service";
 import { Page } from "src/shared/page.model";
 import { VacancyNew } from "src/shared/vacancy/vacancy-new.model";
 import { VacancyDetailResponse } from "src/shared/vacancy/vacancy-detail-response.model";
+import { VacancyEdit } from "src/shared/vacancy/vacancy-edit.model";
 
 @Injectable()
 export class VacancyDataService {
 
     constructor(private prisma: PrismaService) {}
 
-    async create(vacancy: VacancyNew){
+    async create(hrId:number, companyId: number, vacancy: VacancyNew){
         return await this.prisma.vacancy.create({
             data: {
-                company_id: +vacancy.companyId,
-                owner_id: +vacancy.ownerId,
+                company_id: +companyId,
+                owner_id: +hrId,
                 title: vacancy.title,
                 description: vacancy.description,
                 salary: vacancy.salary,
             }
         })
+    }
+
+    async update(vacancyId: number, vacancy: VacancyEdit) {
+        return await this.prisma.vacancy.update({
+            where: {
+                id: +vacancyId
+            },
+            data: {
+                title: vacancy.title,
+                description: vacancy.description,
+                salary: vacancy.salary,
+                is_active: vacancy.isActive
+            }
+        });
+    }
+
+    async delete(vacancyId: number) {
+        return await this.prisma.vacancy.delete({
+            where: {
+                id: +vacancyId
+            }
+        });
     }
 
     async getById(vacancyId: number) {
@@ -98,7 +121,6 @@ export class VacancyDataService {
     }
 
     async getListDetails(page: Page, search: string) {
-        console.log(search);
         let vacancies = await this.prisma.vacancy.findMany({
             where: {
                 title: {
@@ -143,8 +165,9 @@ export class VacancyDataService {
                         reply: true
                     }
                 }
-
-            }
+            },
+            skip: ((page.page-1) * page.toTake),
+            take: +page.toTake
         });
         
         if(vacancies.length == 0)
@@ -176,18 +199,22 @@ export class VacancyDataService {
             where: {
                 company_id: +companyId
             },
+            orderBy: {
+                post_date: 'desc'
+            },
             skip: ((page.page-1) * page.toTake),
             take: +page.toTake
         });
 
-        return vacancies.map(company => {
+        return vacancies.map(vacancy => {
             return {
-                id: company.id,
-                title: company.title,
-                description: company.description,
-                salary: company.salary,
-                companyId: company.company_id,
-                ownerId: company.owner_id
+                id: vacancy.id,
+                title: vacancy.title,
+                description: vacancy.description,
+                salary: vacancy.salary,
+                companyId: vacancy.company_id,
+                ownerId: vacancy.owner_id,
+                postDate: vacancy.post_date
             }
         });
     }

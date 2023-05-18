@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="ps-2 d-flex justify-content-start">
+    <div class="w-50" >
+        <div>
+          <app-search [(searchText)]="searchText" (onSearch)="onNewSearch($event)"></app-search>
+        </div>
+    </div>
+  </div>
+
+  <div *ngIf="vacancies?.length > 0; else noMatches" class="pt-3 d-flex flex-wrap">
+
+    <div *ngFor="let vac of vacancies" style="width: 45%">
+      <div class="ps-3">
+          <app-vacancy-element [vacancy]="vac"></app-vacancy-element>
+      </div>
+
+    </div>
+  </div>
+  <div class="d-flex justify-content-center pt-3 pb-3" style="padding-right: 10%;">
+    <button class="btn btn-outline-info" *ngIf="canLoadMore" (click)="loadPage()">Load more</button>
+    <ng-template #loadingSpinner>
+      <div class="d-flex justify-content-center">
+        <app-loading-spinner></app-loading-spinner>
+      </div>
+    </ng-template>
+  </div>
+
+  <ng-template #noMatches>
+    <div class="container pt-5">
+      <span class="h5" *ngIf="!isLoading; else loadingSpinner">No matches by your search</span>
+    </div>
+  </ng-template>
+
+
+
+</div>

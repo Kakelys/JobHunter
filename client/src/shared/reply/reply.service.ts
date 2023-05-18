@@ -16,10 +16,14 @@ export class ReplyService {
   }
 
   getByVacancy(vacancyId: number, page: number, toTake: number) {
-    return this.http.get<Reply[]>(env.apiUrl + `v1/vacancies/${vacancyId}/replies?page=` + page + '&toTake=' + toTake);
+    return this.http.get<Reply[]>(env.apiUrl + `v1/vacancies/${vacancyId}/replies?page=` + page + '&to_take=' + toTake);
   }
 
   updateStatus(replyId: number, status: string) {
     return this.http.put(env.apiUrl + `v1/replies/${replyId}`, {status: status});
+  }
+
+  get(page: number, toTake: number) {
+    return this.http.get<Reply[]>(env.apiUrl + `v1/replies?page=` + page + '&to_take=' + toTake);
   }
 }

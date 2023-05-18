@@ -8,5 +8,8 @@ export class Page {
         
         if(this.toTake > 100)
             this.toTake = 100;
+
+        if(this.page < 1)
+            this.page = 1;
     }
 }

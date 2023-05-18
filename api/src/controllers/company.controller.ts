@@ -1,3 +1,4 @@
+import { EmployerService } from './../services/employer.service';
 import { Body, Controller, Get, Param, Post, Put, Query, Req, UseGuards } from "@nestjs/common";
 import { Request } from 'express';
 import { ApiTags } from "@nestjs/swagger";
@@ -6,7 +7,6 @@ import { CompanyService } from "src/services/company.service";
 import { CompanyNew } from "src/shared/company/company-new.model";
 import { CompanyResponse } from "src/shared/company/company-response.model";
 import { CompanyEdit } from "src/shared/company/company-edit.model";
-import { EmployerService } from "src/services/employer.service";
 import { VacancyService } from "src/services/vacancy.service";
 import { Page } from "src/shared/page.model";
 import { InviteService } from "src/services/invite.service";
@@ -24,6 +24,16 @@ export class CompanyController {
     @Get(":id")
     async get(@Param('id') id: number) {
         return await this.companyService.getById(id);
+    }
+
+    @Get(":id/employers?")
+    async getEmployers(
+        @Param('id') id: number,
+        @Query('page') page: number,
+        @Query('to_take') toTake: number,
+        ) {
+        let pageObj = new Page(page, toTake);
+        return await this.empService.getEmployers(id, pageObj);
     }
 
     @Get(":id/employers/count")
@@ -48,13 +58,20 @@ export class CompanyController {
         @Query('page') page: number,
         @Query('to_take') toTake: number,
         @Req() req: Request) {
-        return await this.inviteService.getByCompany(req['payload'].sub, {page, toTake});
+        let pageObj = new Page(page, toTake);
+        return await this.inviteService.getByCompany(req['payload'], id, pageObj);
     }
 
     @UseGuards(JwtGuard)
     @Post()
     async create(@Body() dto: CompanyNew, @Req() req: Request) {
         return this.companyService.create(req['payload'].sub, dto);
+    }
+
+    @UseGuards(JwtGuard)
+    @Post('leave')
+    async leave(@Req() req: Request) {
+        return await this.companyService.leave(req['payload']);
     }
 
     @UseGuards(JwtGuard)

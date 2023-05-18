@@ -1,6 +1,7 @@
+import { JwtPayload } from './../shared/auth/jwt-payload.model';
 import { EmployerDataService } from './../data/data-services/employer-data.service';
 import { CompanyDataService } from 'src/data/data-services/company-data.service';
-import { BadRequestException, ForbiddenException, Injectable } from "@nestjs/common";
+import { BadRequestException, ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { CompanyEdit } from 'src/shared/company/company-edit.model';
 import { CompanyNew } from 'src/shared/company/company-new.model';
 import { CompanyResponse } from 'src/shared/company/company-response.model';
@@ -30,6 +31,7 @@ export class CompanyService {
             throw new BadRequestException("Company not found");
 
         return {
+            id: company.id,
             ownerId: company.owner_id,
             name: company.name,
             about: company.about,
@@ -53,6 +55,29 @@ export class CompanyService {
             throw new BadRequestException("Company with the same name already exists");
 
         return await this.companyData.update(company);
+    }
+
+    async leave(payload: JwtPayload) {
+        if(!payload?.employer)
+            throw new BadRequestException('You are not at the company');
+
+        const company = await this.companyData.getCompanyById(payload.employer.companyId);
+        if(!company)
+            throw new NotFoundException('Company not found');
+
+        if(company.owner_id == payload.sub) {
+            const emplCount = await this.employerData.getCountByCompany(company.id);
+
+            if(emplCount > 1)
+                throw new BadRequestException('You are the owner of the company. You cannot leave it while it has employers');
+
+            if(emplCount == 1){
+                await this.companyData.delete(company.id);
+                return;
+            }   
+        }
+
+        await this.employerData.delete(payload.sub);
     }
 
 }

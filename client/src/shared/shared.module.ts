@@ -5,18 +5,19 @@ import { FormsModule } from "@angular/forms";
 import { AppRoutingModule } from "src/app/app-routing.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from "ngx-toastr";
-import { LoadingSpinnerComponent } from "src/app/loading-spinner/loading-spinner.component";
 import { IconModule } from "src/app/icon.module";
 import { AutoExpandDirective } from "./auto-expand.directive";
+import { LoadingSpinnerComponent } from "src/app/loading-spinner/loading-spinner.component";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
     imports: [
       CommonModule,
       FormsModule,
-      AppRoutingModule,
       HttpClientModule,
       BrowserAnimationsModule,
       IconModule,
+      NgbModule,
       ToastrModule.forRoot({
         "closeButton": false,
         "newestOnTop": false,
@@ -31,6 +32,7 @@ import { AutoExpandDirective } from "./auto-expand.directive";
         "resetTimeoutOnDuplicate": true,
 
       }),
+      LoadingSpinnerComponent
     ],
     providers: [
     ],
@@ -40,12 +42,13 @@ import { AutoExpandDirective } from "./auto-expand.directive";
     exports: [
       CommonModule,
       FormsModule,
-      AppRoutingModule,
       HttpClientModule,
       BrowserAnimationsModule,
       ToastrModule,
       IconModule,
-      AutoExpandDirective
+      AutoExpandDirective,
+      LoadingSpinnerComponent,
+      NgbModule,
     ]
 })
 export class SharedModule {

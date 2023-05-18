@@ -45,26 +45,26 @@ export class InviteService {
         await this.inviteData.delete(inviteId);
     }
 
-    async accept(payload: JwtPayload, inviteId: number) {
+    async acceptInvite(payload: JwtPayload, inviteId: number) {
         const invite = await this.inviteData.getById(inviteId);
 
         if(payload.sub != invite.account_id)
             throw new ForbiddenException('You are not allowed to accept this invite');
 
-        if(payload.employer)
-            throw new BadRequestException('Before accepting invite you need to leave your current company');
+        if(payload?.employer)
+            throw new ForbiddenException('Before accepting invite you need to leave your current company');
 
-        await this.prisma.$transaction(async _ => {
+        return await this.prisma.$transaction(async _ => {
             await this.inviteData.delete(inviteId);
             await this.emloyerData.create(invite.company_id, invite.account_id);
         })
     }
 
-    async getByCompany(payload: JwtPayload, page: Page) {
-        if(!payload.employer.isHr)
-            throw new ForbiddenException('Only HR can see invites');
+    async getByCompany(payload: JwtPayload, companyId: number, page: Page) {
+        if(!payload?.employer?.isHr || payload?.employer?.companyId != companyId)
+            throw new ForbiddenException('You are not allowed to see invites');
 
-        return await this.inviteData.getByCompany(payload.employer.companyId, page);
+        return await this.inviteData.getByCompany(companyId, page);
     }
 
     async getByAccount(payload: JwtPayload, page: Page) {
