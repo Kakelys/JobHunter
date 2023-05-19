@@ -28,11 +28,9 @@ export class ChatGateway implements OnGatewayDisconnect, OnGatewayInit{
     async handleConnection(
         @ConnectedSocket() client: Socket,
         @MessageBody() message: string) {
-
+        console.log('connected', message);
         if(!message)
             return;
-            
-        console.log('connected', message);
             
         try{
             const msg = JSON.parse(message);
