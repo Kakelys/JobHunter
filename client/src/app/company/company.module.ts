@@ -16,7 +16,7 @@ import { CompanyInviteListComponent } from './company-invite-list/company-invite
   imports: [
     SharedModule,
     RouterModule.forChild([
-      {path: 'company', component: CompanyComponent, children: [
+      {path: '', component: CompanyComponent, children: [
         {path: 'new', component: CompanyNewComponent, canActivate: [CompanyNewGuard]},
         {path: ':id', component: CompanyElementComponent}
       ]},

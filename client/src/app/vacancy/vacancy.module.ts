@@ -7,19 +7,13 @@ import { VacancyDetailComponent } from "./vacancy-detail/vacancy-detail.componen
 import { VacancyService } from "./vacancy.service";
 import { RouterModule } from "@angular/router";
 import { AuthHrGuard } from "../auth/auth-hr.guard";
-import { SearchComponent } from "./search/search.component";
-import { SearchVacancyListComponent } from "./search/search-vacancy-list/search-vacancy-list.component";
-import { VacancyElementComponent } from './vacancy-element/vacancy-element.component';
-
 
 @NgModule({
   imports:[
     SharedModule,
     RouterModule.forChild([
-      {path: 'vacancy/new', component: VacancyNewComponent, canActivate: [AuthHrGuard]},
-      {path: 'vacancy/:id', component: VacancyDetailComponent},
-      {path: 'vacancies', component: SearchVacancyListComponent},
-      {path: 'vacancies/:search', component: SearchVacancyListComponent},
+      {path: 'new', component: VacancyNewComponent, canActivate: [AuthHrGuard]},
+      {path: ':id', component: VacancyDetailComponent},
     ])
   ],
   declarations: [
@@ -27,9 +21,6 @@ import { VacancyElementComponent } from './vacancy-element/vacancy-element.compo
     VacancyEditComponent,
     VacancyReplyListComponent,
     VacancyDetailComponent,
-    SearchComponent,
-    SearchVacancyListComponent,
-    VacancyElementComponent,
   ],
   providers: [
     VacancyService
@@ -39,9 +30,6 @@ import { VacancyElementComponent } from './vacancy-element/vacancy-element.compo
     VacancyEditComponent,
     VacancyReplyListComponent,
     VacancyDetailComponent,
-    SearchComponent,
-    SearchVacancyListComponent,
-    VacancyElementComponent,
   ],
 })
 export class VacancyModule{}

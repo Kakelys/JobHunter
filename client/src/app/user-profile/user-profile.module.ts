@@ -11,7 +11,7 @@ import { UserReplyListComponent } from './user-reply-list/user-reply-list.compon
   imports: [
     SharedModule,
     RouterModule.forChild([
-      {path: 'user/:id', component: UserProfileComponent},
+      {path: ':id', component: UserProfileComponent},
     ])
   ],
   declarations: [

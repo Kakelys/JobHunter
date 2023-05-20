@@ -15,7 +15,7 @@ import { VacancyModule } from '../vacancy/vacancy.module';
     SharedModule,
     VacancyModule,
     RouterModule.forChild([
-      {path: 'favorite', component: FavoriteListComponent, canActivate: [AuthGuard]}
+      {path: '', component: FavoriteListComponent, canActivate: [AuthGuard]}
     ])
   ],
   providers: [

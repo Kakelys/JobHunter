@@ -18,8 +18,8 @@ import { ChatWrapperComponent } from "./chat-wrapper/chat-wrapper.component";
   imports: [
     SharedModule,
     RouterModule.forChild([
-      { path: 'chat/:id', component: ChatWrapperComponent, canActivate: [AuthGuard]},
-      { path: 'chat', component: ChatWrapperComponent, canActivate: [AuthGuard]}
+      { path: '', component: ChatWrapperComponent, canActivate: [AuthGuard]},
+      { path: ':id', component: ChatWrapperComponent, canActivate: [AuthGuard]},
     ]),
   ],
   providers: [

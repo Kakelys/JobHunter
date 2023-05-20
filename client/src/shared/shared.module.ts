@@ -9,13 +9,13 @@ import { IconModule } from "src/app/icon.module";
 import { AutoExpandDirective } from "./auto-expand.directive";
 import { LoadingSpinnerComponent } from "src/app/loading-spinner/loading-spinner.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { VacancyElementComponent } from "src/app/vacancy/vacancy-element/vacancy-element.component";
+import { RouterModule } from "@angular/router";
 
 @NgModule({
     imports: [
-      CommonModule,
       FormsModule,
-      HttpClientModule,
-      BrowserAnimationsModule,
+      CommonModule,
       IconModule,
       NgbModule,
       ToastrModule.forRoot({
@@ -32,23 +32,25 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
         "resetTimeoutOnDuplicate": true,
 
       }),
-      LoadingSpinnerComponent
+      LoadingSpinnerComponent,
+      RouterModule,
     ],
     providers: [
     ],
     declarations: [
-      AutoExpandDirective
+      AutoExpandDirective,
+      VacancyElementComponent,
     ],
     exports: [
       CommonModule,
       FormsModule,
-      HttpClientModule,
-      BrowserAnimationsModule,
       ToastrModule,
       IconModule,
       AutoExpandDirective,
       LoadingSpinnerComponent,
+      VacancyElementComponent,
       NgbModule,
+      RouterModule
     ]
 })
 export class SharedModule {

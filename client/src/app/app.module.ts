@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { HttpResponseException } from './http-response-exception.interceptor';
-import { HTTP_INTERCEPTORS, HttpErrorResponse} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './not-found/not-found.component';
@@ -19,6 +19,7 @@ import { VacancyModule } from './vacancy/vacancy.module';
 import { CompanyModule } from './company/company.module';
 import { UserProfileModule } from './user-profile/user-profile.module';
 import { AppRoutingModule } from './app-routing.module';
+import { SearchVacancyModule } from './vacancy/search-vacancy.module';
 
 // This function is used to automatically authenticate the user when the app starts.
 // before i used await and subscribe, but it didn't waiting for the result of autoAuth()
@@ -49,12 +50,14 @@ function autoAuthInit(authService: AuthService): () => Promise<any> {
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     SharedModule,
+    HttpClientModule,
+    AppRoutingModule,
     AuthModule,
     ChatModule,
-    FavoriteModule,
     VacancyModule,
+    SearchVacancyModule,
+    FavoriteModule,
     CompanyModule,
     UserProfileModule,
     BrowserAnimationsModule,
